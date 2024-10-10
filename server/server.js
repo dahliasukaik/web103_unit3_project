@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 3000
 const app = express()
 
 app.use(express.json())
+// Register API routes
+app.use('/api/events', eventsRoutes);    // Events routes
+app.use('/api/locations', locationsRoutes);  // Locations routes
 
 if (process.env.NODE_ENV === 'development') {
     app.use(favicon(path.resolve('../', 'client', 'public', 'party.png')))
