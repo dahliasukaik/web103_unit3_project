@@ -1,12 +1,11 @@
 import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
-import eventsRoutes from './routes/eventsRoutes.js';
-import locationsRoutes from './routes/locationsRoutes.js';
 import dotenv from 'dotenv'
 
-// import the router from your routes file
-
+// Import routers for API endpoints
+import locationsRouter from './routes/locations.js'
+import eventsRouter from './routes/events.js'
 
 dotenv.config()
 
@@ -15,21 +14,20 @@ const PORT = process.env.PORT || 3000
 const app = express()
 
 app.use(express.json())
-// Register API routes
-app.use('/api/events', eventsRoutes);    // Events routes
-app.use('/api/locations', locationsRoutes);  // Locations routes
 
+// Serve favicon depending on environment
 if (process.env.NODE_ENV === 'development') {
     app.use(favicon(path.resolve('../', 'client', 'public', 'party.png')))
-}
-else if (process.env.NODE_ENV === 'production') {
+} else if (process.env.NODE_ENV === 'production') {
     app.use(favicon(path.resolve('public', 'party.png')))
     app.use(express.static('public'))
 }
 
-// specify the api path for the server to use
+// Use the API routes
+app.use('/api/locations', locationsRouter)
+app.use('/api/events', eventsRouter)
 
-
+// In production, serve the front-end index.html
 if (process.env.NODE_ENV === 'production') {
     app.get('/*', (_, res) =>
         res.sendFile(path.resolve('public', 'index.html'))
@@ -37,5 +35,5 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(PORT, () => {
-    console.log(`server listening on http://localhost:${PORT}`)
+    console.log(`Server listening on http://localhost:${PORT}`)
 })

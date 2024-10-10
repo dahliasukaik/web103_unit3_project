@@ -1,11 +1,14 @@
-import { pool } from '../config/database.js';
+import { pool } from '../config/database.js'
 
-export const getLocations = async (req, res) => {
+// Function to get all locations
+export const getAllLocations = async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM locations');
-        res.json(result.rows);
+        const result = await pool.query('SELECT * FROM locations')
+        res.json(result.rows)
     } catch (error) {
-        console.error('Error fetching locations:', error);
-        res.status(500).send('Server error');
+        console.error('Error fetching locations:', error)
+        res.status(500).json({ error: 'Error fetching locations' })
     }
-};
+}
+
+
