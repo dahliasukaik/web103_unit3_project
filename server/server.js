@@ -1,6 +1,8 @@
 import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
+import eventsRoutes from './routes/eventsRoutes.js';
+import locationsRoutes from './routes/locationsRoutes.js';
 import dotenv from 'dotenv'
 
 // import the router from your routes file
